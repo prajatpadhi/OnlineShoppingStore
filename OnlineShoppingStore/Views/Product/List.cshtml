@@ -1,0 +1,19 @@
+﻿@model OnlineShoppingStore.Models.ProductPageViewModel
+@using OnlineShoppingStore.HtmlHelpers
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Products";
+}
+
+@foreach (var p in Model.products)
+{
+    @Html.Partial("ProductPartial",p)
+}
+
+<div class="btn pull-right">
+    @Html.PageLinks(Model.info,p => Url.Action("List",new { page=p,category=Model.currentCategory}))
+</div>
+

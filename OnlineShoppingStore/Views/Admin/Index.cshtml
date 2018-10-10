@@ -1,0 +1,45 @@
+﻿@model IEnumerable<OnlineShoppingStore.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="text-primary">List of Products</span>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+                <tr>
+                    <td>Product ID</td>
+                    <td>Name</td>
+                    <td>Price</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+            {
+                    <tr>
+                        <td>@p.ProductId</td>
+                        <td>@Html.ActionLink(p.Name,"Edit",new { p.ProductId})</td>
+                        <td>@p.Price</td>
+                        <td>
+                           @using (@Html.BeginForm("Delete", "Admin"))
+                            { 
+                               @Html.Hidden("ProductId",p.ProductId)
+                               <input type="submit" class="btn btn-danger" value="Delete"/>
+                            }
+                        </td>
+                    </tr>
+           }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="panel panel-footer">
+        @Html.ActionLink("Create a new product", "Create",null, new { @class="btn btn-default"})
+    </div>
+</div>

@@ -1,0 +1,13 @@
+﻿@model OnlineShoppingStore.Models.Cart
+    <div class="navbar navbar-right">
+        @Html.ActionLink("Checkout","CheckOut",
+       new { routeUrl=Request.Url.PathAndQuery},
+       new {@class="btn btn-primary"}
+       )
+    </div>
+<div class="navbar navbar-right navbar-text">
+    <b>Your cart</b>
+    @Model.ReturnCart.Sum(p=>p.Quantity) + "item(s)";
+    @Model.ComputeTotalPrice().ToString("c"); 
+</div>
+

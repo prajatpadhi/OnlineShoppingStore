@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using WebAPI_CodeProject.BusinessServices;
+
+namespace WebAPI_CodeProject.Controllers
+{
+    public class HomeController : Controller
+    {
+
+        private readonly IProductServices productServices;
+
+   
+
+        /// <summary>
+        /// Public constructor to initialize product service instance
+        /// </summary>
+        public HomeController(IProductServices p)
+        {
+            this.productServices = p;
+        }
+        public ActionResult Index()
+        {
+            ViewBag.Title = "Home Page";
+
+            return View();
+        }
+    }
+}

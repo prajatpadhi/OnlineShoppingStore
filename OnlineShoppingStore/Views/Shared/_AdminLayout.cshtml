@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        <a href="~/Product/List" class="btn-link">Online Shopping Store</a>
+        <div class="pull-right">
+            
+                @{
+                    var username = HttpContext.Current.User.Identity.Name;
+                    if (username != "" || username != null)
+                    {
+                        <span class="navbar-text">Hi 
+                            @Html.Label(username)
+                    </span>
+                        <span class="btn btn-danger" >@Html.ActionLink("Logout", "Logout", "Account")
+                            </span>
+                        
+                    }
+                }
+
+        </div>
+    </div>
+    @if (TempData["Message"] != null)
+        {
+          <div class="text-success">@TempData["Message"]</div>
+        }
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

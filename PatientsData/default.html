@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Cors Client</title>
+    <script src="Scripts/jquery-3.3.1.js"></script>
+    
+</head>
+<body>
+    <form id="userdata">
+        <input type="text" id="email" name="email" placeholder="Email" />
+        <input type="text" id="username" name="username" placeholder="username" />
+        <input type="password" id="password" name="password" placeholder="Password" />
+        <input type="password" id="confirmpassword" name="confirmpassword" placeholder="ConfirmPassword" />
+        <input type="submit" id="register" name="register" value="Register" />
+        <input type="submit" id="login" value="Login" />
+
+    </form>
+
+    <button id="button" onsubmit="return false">
+        Click me
+    </button>
+
+    <pre id="output">
+ 
+    </pre>
+
+    <script>
+        $(function () {
+            var url = "http://localhost:53965/api/patients";
+            //var url = "http://localhost:3418/api/product";
+            var accessToken = "";
+            var getPatients = function () {
+                $.ajax(url, {
+                    type: "GET",
+                    headers: getHeaders()
+                }).always(showResponse);
+              
+                return false;
+            };
+
+            var getHeaders = function () {
+                if (accessToken) {
+                    return { "Authorization": "Bearer " + accessToken };
+                }
+            };
+
+            var register = function () {
+                var data = $("#userdata").serialize();
+                $.post("/api/account/register",data).always(showResponse);
+                return false;
+            };
+
+            var login = function () {
+                var data = $("#userdata").serialize();
+                data= data + "&grant_type=password"
+                $.post("/token", data,saveAccessToken).always(showResponse);
+                //success(saveAccessToken).
+                return false;
+            };
+
+            var saveAccessToken = function (data) {
+                accessToken = data.access_token;
+            };
+
+
+           
+
+            var showResponse = function (patients) {
+                $("#output").text(JSON.stringify(patients,null,4));
+                //$("#output").text(patients, null, 4);
+            };
+
+            
+            $("#button").click(getPatients);
+            $("#login").click(login);
+            $("#register").click(register);
+
+        });
+            
+    </script>
+</body>
+
+</html>

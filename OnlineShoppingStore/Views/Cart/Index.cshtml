@@ -1,0 +1,83 @@
+﻿@model OnlineShoppingStore.Models.CartIndexViewModel
+    @using OnlineShoppingStore.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #cartTable td {
+        vertical-align: middle;
+    }
+
+    .bordered {
+        border: 1px solid black
+    }
+    .table-bordered {
+        border: 1px solid black;
+       
+    }
+
+        .table-bordered > thead > tr > th {
+            border: 1px solid black;
+        }
+
+        .table-bordered > tbody > tr > td {
+            border: 1px solid black;
+        }
+    .table-bordered > tfoot > tr > td {
+        border: 1px solid black;
+    }
+</style>
+
+@{
+    ViewBag.Title = "Your shopping cart";
+}
+
+<h3>Your Cart</h3>
+<div >
+    <table id="cartTable" class="table table-striped table-bordered"  >
+        <thead>
+            <tr >
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Price</th>
+            </tr>
+
+        </thead>
+            
+       <tbody>
+           @foreach (CartLine c in Model.cart.ReturnCart)
+           {
+            <tr>
+                <td>@c.product.Name</td>
+                <td>@c.Quantity</td>
+                <td class="text-right">@c.product.Price</td>
+                <td class="text-right">@((c.product.Price * c.Quantity).ToString("c"))</td>
+                <td>
+                    @using (Html.BeginForm("RemoveCart", "Cart"))
+                    {
+                        Html.HiddenFor(x => x.returnUrl);
+                        Html.Hidden("ProductId",c.product.ProductId);
+                        <input type="submit" class="btn btn-primary" value="Remove"/>
+                    }
+                </td>
+            </tr>
+
+                    }
+       </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total Amount</td>
+                <td class="text-right">@Model.cart.ComputeTotalPrice()</td>
+            </tr>
+           
+        </tfoot>
+    </table>
+</div>
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.returnUrl">Continue Shopping</a>
+    @Html.ActionLink("CheckOut Now", "CheckOut",null, new { @class = "btn btn-primary" })
+
+</div>
+
